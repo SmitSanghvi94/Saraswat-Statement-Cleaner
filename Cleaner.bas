@@ -51,11 +51,19 @@ Sub Cleaner()
         searchorder:=xlByRows, MatchCase:=False, SearchFormat:=False, _
         ReplaceFormat:=False
     Range("E2").Select
-    ActiveCell.FormulaR1C1 = _
-        "=IF(LEFT(RC[-1],2)=""Dr"",NUMBERVALUE(RIGHT(RC[-1],LEN(RC[-1])-2)),"""")"
-    Range("F2").Select
-    ActiveCell.FormulaR1C1 = _
-        "=IF(LEFT(RC[-2],2)=""Cr"",NUMBERVALUE(RIGHT(RC[-2],LEN(RC[-2])-2)),"""")"
+    If InStr(ActiveCell.Value, "Dr") > 0 Or InStr(ActiveCell.Value, "Cr") > 0 Then
+        ActiveCell.FormulaR1C1 = _
+            "=IF(LEFT(RC[-1],2)=""Dr"",NUMBERVALUE(RIGHT(RC[-1],LEN(RC[-1])-2)),"""")"
+        Range("F2").Select
+        ActiveCell.FormulaR1C1 = _
+            "=IF(LEFT(RC[-2],2)=""Cr"",NUMBERVALUE(RIGHT(RC[-2],LEN(RC[-2])-2)),"""")"
+    Else
+        ActiveCell.FormulaR1C1 = _
+            "=IF(NUMBERVALUE(RC[-1])<0,NUMBERVALUE(RC[-1])*-1,"""")"
+        Range("F2").Select
+        ActiveCell.FormulaR1C1 = _
+            "=IF(NUMBERVALUE(RC[-2])>0,NUMBERVALUE(RC[-2]),"""")"
+    End If
     Range("D2").Select
     Selection.End(xlDown).Select
     totalcol = ActiveCell.Row
@@ -121,3 +129,5 @@ Sub Cleaner()
         End If
     End With
 End Sub
+
+
