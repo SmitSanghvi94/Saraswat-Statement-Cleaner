@@ -50,19 +50,27 @@ Sub Cleaner()
     Selection.Replace What:=" ", Replacement:="", lookat:=xlPart, _
         searchorder:=xlByRows, MatchCase:=False, SearchFormat:=False, _
         ReplaceFormat:=False
-    Range("E2").Select
+    Selection.Replace What:=",", Replacement:="", lookat:=xlPart, _
+        searchorder:=xlByRows, MatchCase:=False, SearchFormat:=False, _
+        ReplaceFormat:=False
+    Selection.Replace What:=".", Replacement:=".", lookat:=xlPart, _
+        searchorder:=xlByRows, MatchCase:=False, SearchFormat:=False, _
+        ReplaceFormat:=False
+    Range("D2").Select
     If InStr(ActiveCell.Value, "Dr") > 0 Or InStr(ActiveCell.Value, "Cr") > 0 Then
+        Range("E2").Select
         ActiveCell.FormulaR1C1 = _
-            "=IF(LEFT(RC[-1],2)=""Dr"",VALUE(RIGHT(RC[-1],LEN(RC[-1])-2)),"""")"
+            "=IF(LEFT(RC[-1],2)=""Dr"",RIGHT(RC[-1],LEN(RC[-1])-2),"""")*1"
         Range("F2").Select
         ActiveCell.FormulaR1C1 = _
-            "=IF(LEFT(RC[-2],2)=""Cr"",VALUE(RIGHT(RC[-2],LEN(RC[-2])-2)),"""")"
+            "=IF(LEFT(RC[-2],2)=""Cr"",RIGHT(RC[-2],LEN(RC[-2])-2),"""")*1"
     Else
+        Range("E2").Select
         ActiveCell.FormulaR1C1 = _
-            "=IF(VALUE(RC[-1])<0,VALUE(RC[-1])*-1,"""")"
+            "=IF(RC[-1]<0,RC[-1]*-1,"""")*1"
         Range("F2").Select
         ActiveCell.FormulaR1C1 = _
-            "=IF(VALUE(RC[-2])>0,VALUE(RC[-2]),"""")"
+            "=IF(RC[-2]>0,RC[-2],"""")*1"
     End If
     Range("D2").Select
     Selection.End(xlDown).Select
